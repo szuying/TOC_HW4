@@ -1,3 +1,16 @@
+/*
+ * author: 陳思穎
+ * student ID: H34001165
+ * date: 2014/06/25
+ * 
+ * Given a URL,
+ * scan the whole data(.json) and find out
+ * "which road in a city has house trading records
+ * spread in #max_distinct_month."
+ * Print out the roads name and their cities
+ * with their highest sale price and lowest sale price.
+ */
+ 
 import org.json.*;
 import java.net.*;
 import java.io.*;
