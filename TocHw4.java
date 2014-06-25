@@ -33,7 +33,8 @@ public class TocHw4 {
 		Pattern street_pattern = Pattern.compile(street_patt);
 		Pattern ave_pattern = Pattern.compile(ave_patt);
 		Pattern lane_pattern = Pattern.compile(lane_patt);
-
+		
+		// get json file
 		URL data_url = new URL(url);
 		URLConnection url_con = data_url.openConnection();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -46,7 +47,6 @@ public class TocHw4 {
 			int count = 0;
 			int low, high;
 			Map<Integer, Integer> dateMap = new HashMap<Integer, Integer>();
-
 			public int compareTo(Object anotherData) throws ClassCastException {
 				if (!(anotherData instanceof Data))
 					throw new ClassCastException("A Data object expected.");
@@ -58,6 +58,8 @@ public class TocHw4 {
 		for (int i = 0; i < 2005; ++i) {
 			dataArr[i] = new Data();
 		}
+		
+		// map address to an index
 		Map<String, Integer> addrMap = new HashMap<String, Integer>();
 		int addrIndex = 0;
 
@@ -75,6 +77,7 @@ public class TocHw4 {
 				int found = 0;
 				int road_len = 0, street_len = 0, ave_len = 0;
 				String roadname = "", streetname = "", avename = "", lanename = "", addrname = "";
+				
 				if (road_matcher.find()) {
 					roadname = road_matcher.group();
 					road_len = roadname.length();
@@ -100,6 +103,8 @@ public class TocHw4 {
 				if (found == 10)
 					addrname = lanename;
 				else if (found > 1) {
+					
+					// find the longest name (problem 大道路)
 					int max_len = 0;
 					if (road_len > max_len) {
 						addrname = roadname;
@@ -116,6 +121,8 @@ public class TocHw4 {
 				}
 				if (found != 0) {
 					//System.out.println(addrname + " " + date + " " + price);
+					
+					// the address has been found
 					if (addrMap.get(addrname) != null) {
 						int index = addrMap.get(addrname);
 						if (price > dataArr[index].high)
@@ -128,7 +135,9 @@ public class TocHw4 {
 									dataArr[index].count);
 						}
 
-					} else {
+					}
+					// the address is found the 1st time
+					else {
 						addrMap.put(addrname, addrIndex);
 						dataArr[addrIndex].addr = addrname;
 						dataArr[addrIndex].count = 1;
@@ -142,8 +151,12 @@ public class TocHw4 {
 			}
 			line++;
 		}
+		
+		// sort the arr by count
 		Arrays.sort(dataArr);
 		int max_count = dataArr[0].count;
+		
+		// if more than one data have the same num of count
 		for (int i = 0;; ++i) {
 			if (dataArr[i].count != max_count)
 				break;
